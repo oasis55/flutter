@@ -1,5 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
-import 'package:work_2/models/message.dart';
+import 'package:work_3/models/message.dart';
 
 class DatabaseService {
   DatabaseService({required this.id});
