@@ -45,7 +45,7 @@ class _ContactsPageState extends State<ContactsPage> {
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
             leading: CircleAvatar(child: Text((_users[index].displayName ?? '').substring(0, 1))),
-            title: Text(_users[index].displayName ?? ''),
+            title: Text(_users[index].displayName ?? '', style: const TextStyle(fontFamily: "KalniaGlaze"),),
           );
         }
       ),
