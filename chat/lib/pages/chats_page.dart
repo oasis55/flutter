@@ -1,3 +1,4 @@
+import 'package:chat/pages/chat_page.dart';
 import 'package:flutter/material.dart';
 
 class ChatsPage extends StatefulWidget {
@@ -16,14 +17,21 @@ class _ChatsPageState extends State<ChatsPage> {
           title: const Text('Chats'),
         ),
       body: ListView(
-        children: const <Widget>[
-          ListTile(
-            leading: CircleAvatar(child: Text('A')),
-            title: Text('Headline'),
-            subtitle: Text('Supporting text'),
-            trailing: Icon(Icons.favorite_rounded),
+        children: <Widget>[
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const ChatPage())
+              );
+            },
+            child: const ListTile(
+              leading: CircleAvatar(child: Text('A')),
+              title: Text('Headline'),
+              subtitle: Text('Supporting text'),
+              trailing: Icon(Icons.favorite_rounded),
+            ),
           ),
-          Divider(height: 0),
+          const Divider(height: 0),
         ],
       ),
     );

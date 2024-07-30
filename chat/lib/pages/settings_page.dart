@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -9,12 +10,7 @@ import '../models/user.dart';
 import '../services/database_service.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({
-    super.key,
-    required this.currentUserId
-  });
-
-  final String currentUserId;
+  const SettingsPage({super.key,});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -72,7 +68,7 @@ class _SettingsPageState extends State<SettingsPage> {
     if (user == null) {
       try {
         await _db.updateUser(User(
-          id: widget.currentUserId,
+          id: _db.userId,
           displayName: 'no_name',
           photoUrl: null
         ));
@@ -93,7 +89,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
-    _db = DatabaseService(userId: widget.currentUserId);
+    _db = GetIt.I<DatabaseService>();
     _textFieldController = TextEditingController();
     _loadUser();
     _loadAvatar();
@@ -132,7 +128,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       controller: _textFieldController,
                     ),
                   )
-                : Text(_name ?? 'no_name', style: const TextStyle(fontSize: 24),)
+                : Text(_name ?? 'no_name', style: const TextStyle(fontSize: 24),),
           ],
         ),
       ),

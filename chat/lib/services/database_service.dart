@@ -11,6 +11,10 @@ class DatabaseService {
 
   final String userId;
 
+  DatabaseReference getMessagesRef() {
+    return database.ref("messages");
+  }
+
   Future addMessage(text) async {
     DatabaseReference ref = FirebaseDatabase.instance.ref("messages");
     final message = Message(

@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import '../models/user.dart';
 import '../services/database_service.dart';
 
 class ContactsPage extends StatefulWidget {
-  const ContactsPage({
-    super.key,
-    required this.currentUserId
-  });
-
-  final String currentUserId;
+  const ContactsPage({super.key,});
 
   @override
   State<ContactsPage> createState() => _ContactsPageState();
@@ -29,7 +25,7 @@ class _ContactsPageState extends State<ContactsPage> {
   @override
   void initState() {
     super.initState();
-    _db = DatabaseService(userId: widget.currentUserId);
+    _db = GetIt.I<DatabaseService>();
     _loadContacts();
   }
 

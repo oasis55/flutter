@@ -1,8 +1,11 @@
 import 'package:chat/pages/chats_page.dart';
 import 'package:chat/pages/contacts_page.dart';
 import 'package:chat/pages/settings_page.dart';
+import 'package:chat/pages/webview_page.dart';
+import 'package:chat/services/database_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:get_it/get_it.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'firebase_options.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,8 +25,9 @@ Future<void> main() async {
   if (userId == null) {
     userId = const Uuid().v4();
     await prefs.setString('userId', userId ?? '');
-    return;
   }
+
+  GetIt.I.registerSingleton<DatabaseService>(DatabaseService(userId: userId as String));
 
   runApp(MyApp());
 }
@@ -66,9 +70,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: <Widget>[
-        ContactsPage(currentUserId: _userId),
+        const ContactsPage(),
         const ChatsPage(),
-        SettingsPage(currentUserId: _userId),
+        const SettingsPage(),
+        const WebViewPage()
       ][currentPageIndex],
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
@@ -81,6 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
           NavigationDestination(icon: Icon(Icons.contacts), label: 'Contacts'),
           NavigationDestination(icon: Icon(Icons.chat), label: 'Chats'),
           NavigationDestination(icon: Icon(Icons.settings), label: 'Settings'),
+          NavigationDestination(icon: Icon(Icons.web), label: 'WebView'),
         ],
       ),
     );
