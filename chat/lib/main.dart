@@ -43,45 +43,44 @@ class MyApp extends StatelessWidget {
         fontFamily: GoogleFonts.abel().fontFamily,
         useMaterial3: true,
       ),
-      home: const MyHomePage(),
+      home: const MyHomePage(index: 0,),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+  const MyHomePage({super.key, required this.index});
+
+  final int index;
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  late final String _userId;
-
-  int currentPageIndex = 0;
+  final List<Widget> _routes = [
+    const ContactsPage(),
+    const ChatsPage(),
+    const SettingsPage(),
+    const WebViewPage(),
+  ];
 
   @override
   void initState() {
-    _userId = userId ?? '';
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: <Widget>[
-        const ContactsPage(),
-        const ChatsPage(),
-        const SettingsPage(),
-        const WebViewPage()
-      ][currentPageIndex],
+      body: _routes[widget.index],
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
-          setState(() {
-            currentPageIndex = index;
-          });
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => MyHomePage(index: index)
+          ));
         },
-        selectedIndex: currentPageIndex,
+        selectedIndex: widget.index,
         destinations: const <Widget>[
           NavigationDestination(icon: Icon(Icons.contacts), label: 'Contacts'),
           NavigationDestination(icon: Icon(Icons.chat), label: 'Chats'),

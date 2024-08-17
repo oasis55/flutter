@@ -6,6 +6,7 @@ import '../models/message.dart';
 import '../services/database_service.dart';
 import '../widgets/input_area.dart';
 import '../widgets/message_list.dart';
+import '../widgets/shimmer.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -44,11 +45,13 @@ class _ChatPageState extends State<ChatPage> {
               final currentMessage = Map<String, dynamic>.from(value);
               messageList.add(Message.fromJson(currentMessage));
             });
-
-            return MessageList(messageList: messageList,);
           }
-          return const Text('No messages');
-        },
+
+          return AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            child: snapshot.hasData ? MessageList(messageList: messageList,) : const Shimmer(),
+          );
+          },
       ),
       bottomNavigationBar: InputArea(
         controller: _textFieldController,

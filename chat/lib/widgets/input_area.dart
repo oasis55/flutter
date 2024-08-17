@@ -15,6 +15,9 @@ class InputArea extends StatefulWidget {
 }
 
 class _InputAreaState extends State<InputArea> {
+  bool _isLoading = false;
+  double _turns = 0;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -30,8 +33,26 @@ class _InputAreaState extends State<InputArea> {
             ),
           ),
           IconButton(
-            onPressed: widget.onPressed,
-            icon: const Icon(Icons.send),
+            onPressed: () {
+              setState(() {
+                _turns += 1;
+                _isLoading = true;
+              });
+              widget.onPressed?.call();
+            },
+            icon: AnimatedRotation(
+              key: const ValueKey('button'),
+              duration: const Duration(seconds: 1),
+              onEnd: () {
+                setState(() {
+                  _isLoading = false;
+                });
+              },
+              turns: _turns,
+              child: _isLoading
+                  ? const Icon(key: ValueKey('one'), Icons.refresh)
+                  : const Icon(key: ValueKey('two'), Icons.send),
+            ),
           ),
         ],
       ),
